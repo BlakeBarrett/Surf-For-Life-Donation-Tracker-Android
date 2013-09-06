@@ -41,7 +41,8 @@ public class SurfForLifeAPI {
 	 * @return JSONObject 
 	  		{	
 	  			funding_goal: 2000,
-		 		funding_status: 1999 
+		 		funding_status: 1999,
+		 		currency_symbol: "$"
 		 	}
 	 */
 	public static JSONObject getFundingStatusForVolunteer(final int volunteerId) {
