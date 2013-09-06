@@ -2,6 +2,9 @@
 *.apk
 *.ap_
 
+# git crap I don't care about
+.orig
+
 # Java class files
 *.class
 
