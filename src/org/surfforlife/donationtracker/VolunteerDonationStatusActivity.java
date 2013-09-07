@@ -1,5 +1,8 @@
 package org.surfforlife.donationtracker;
 
+import java.text.NumberFormat;
+import java.util.Locale;
+
 import org.surfforlife.api.SocialAPI;
 import org.surfforlife.api.SurfForLifeAPI;
 import org.surfforlife.objects.FundingStatus;
@@ -63,15 +66,16 @@ public class VolunteerDonationStatusActivity extends Activity {
 	private void setStatusForVolunteer(final FundingStatus fundingStatus) {
 		final int status = fundingStatus.getStatus();
 		final int goal = fundingStatus.getGoal();
+		final Locale locale = fundingStatus.getLocale();
 		final TextView statusText = (TextView) findViewById(R.id.fundraising_status_text);
-		final String fundingStatusString = getCurrencyFormattedString(status)
-				+ " of " + getCurrencyFormattedString(goal);
+		final String fundingStatusString = getCurrencyFormattedString(status, locale)
+				+ " of " + getCurrencyFormattedString(goal, locale);
 		statusText.setText(fundingStatusString);
 	}
 
-	private String getCurrencyFormattedString(final int value) {
-		// TODO: use provided locale
-		return "$" + String.valueOf(value);
+	private String getCurrencyFormattedString(final int value, final Locale locale) {
+		final NumberFormat format = NumberFormat.getCurrencyInstance(locale);
+		return format.format(value);
 	}
 
 	private void setSocialSharingButtonClickListeners() {
@@ -90,6 +94,5 @@ public class VolunteerDonationStatusActivity extends Activity {
 						SocialAPI.tweet(socialMessage);
 					}
 				});
-
 	}
 }
