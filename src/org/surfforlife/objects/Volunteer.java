@@ -6,9 +6,9 @@ import org.json.JSONObject;
 public class Volunteer {
 	
 	public static final String VOLUNTEER = "volunteer";
-	public static final String VOLUNTEER_ID = "volunteer_id";
-	public static final String VOLUNTEER_NAME = "volunteer_name";
-	public static final String VOLUNTEER_URL = "volunteer_url";
+	public static final String VOLUNTEER_ID = "id";
+	public static final String VOLUNTEER_NAME = "name";
+	public static final String VOLUNTEER_URL = "page_url";
 	
 	private int id;
 	private String name;

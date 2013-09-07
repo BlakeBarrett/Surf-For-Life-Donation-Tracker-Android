@@ -4,6 +4,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.surfforlife.objects.Volunteer;
@@ -15,7 +16,18 @@ public class SurfForLifeAPI {
 	private static final String VOLUNTEER_STATUS_ENDPOINT = "/volunteer/VOLUNTEER_ID/funding_status";
 	
 	public static ArrayList<Volunteer> getVolunteers() {
-		return new ArrayList<Volunteer>();
+		ArrayList<Volunteer> volunteersList = new ArrayList<Volunteer>();
+		try {
+			JSONArray volunteersArr = getVolunteersJSON().getJSONArray("volunteers");
+			for (int i = 0; i < volunteersArr.length(); i++) {
+				JSONObject currentVolunteerJSON = (JSONObject) volunteersArr.get(i);
+				Volunteer currentVolunteer = new Volunteer(currentVolunteerJSON);
+				volunteersList.add(currentVolunteer);
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return volunteersList;
 	}
 	
 	/**
@@ -42,7 +54,7 @@ public class SurfForLifeAPI {
 	  		{	
 	  			funding_goal: 2000,
 		 		funding_status: 1999,
-		 		currency_symbol: "$"
+		 		locale: "en_US"
 		 	}
 	 */
 	public static JSONObject getFundingStatusForVolunteer(final int volunteerId) {
@@ -67,6 +79,14 @@ public class SurfForLifeAPI {
 	}
 	
 	private static String doGetRequest(URL url) {
-		return "";
+		// HACK!!!
+		if (url.toString().equals(SURF_FOR_LIFE_API + VOLUNTEERS_ENDPOINT)) {
+			return "{volunteers:[{" +
+					"id: 12345, name: 'Jonus Grumby', page_url: 'http://hippovszombies.com'},{" +
+					"id: 12346, name: 'Blake Barrett', page_url: 'http://fb.com/schjlatah'}" +
+					"]}";
+		} else {
+			return "{funding_goal: 2000, funding_status: 1750, locale: 'en_US'}";
+		}
 	}
 }
