@@ -1,5 +1,10 @@
 package org.surfforlife.api;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -19,7 +24,8 @@ public class SurfForLifeAPI {
 	public static ArrayList<Volunteer> getVolunteers() {
 		ArrayList<Volunteer> volunteersList = new ArrayList<Volunteer>();
 		try {
-			JSONArray volunteersArr = getVolunteersJSON().getJSONArray("volunteers");
+			JSONObject volunteersJSON = getVolunteersJSON();
+			JSONArray volunteersArr = volunteersJSON.getJSONArray("volunteers");
 			for (int i = 0; i < volunteersArr.length(); i++) {
 				JSONObject currentVolunteerJSON = (JSONObject) volunteersArr.get(i);
 				Volunteer currentVolunteer = new Volunteer(currentVolunteerJSON);
@@ -80,15 +86,50 @@ public class SurfForLifeAPI {
 		return resultsObj;
 	}
 
-	private static String doGetRequest(URL url) {
-		// HACK!!!
-		if (url.toString().equals(SURF_FOR_LIFE_API + VOLUNTEERS_ENDPOINT)) {
-			return "{volunteers:[{" +
-					"id: 12345, name: 'Jonus Grumby', page_url: 'http://hippovszombies.com'},{" +
-					"id: 12346, name: 'Blake Barrett', page_url: 'http://fb.com/schjlatah'}" +
-					"]}";
-		} else {
-			return "{funding_goal: 2000, funding_status: 1750, locale: 'en_US'}";
+	static String doGetRequest(URL url) {
+		String result = "";
+		try {
+			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+			final String streamData = readStream(connection.getInputStream());
+			if (streamData != null) {
+				result = streamData;
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			// HACK!!!
+			if (url.toString().equals(SURF_FOR_LIFE_API + VOLUNTEERS_ENDPOINT)) {
+				result = "{volunteers:[{" +
+						"id: 12345, name: 'Jonus Grumby', page_url: 'http://hippovszombies.com'},{" +
+						"id: 12346, name: 'Blake Barrett', page_url: 'http://fb.com/schjlatah'}" +
+						"]}";
+			} else {
+				result = "{funding_goal: 2000, funding_status: 1750, locale: 'en_US'}";
+			}
 		}
+		return result;
+	}
+	
+	private static String readStream(InputStream in) {
+		StringBuilder result = new StringBuilder();
+		BufferedReader reader = null;
+		try {
+			reader = new BufferedReader(new InputStreamReader(in));
+			String line = "";
+			while ((line = reader.readLine()) != null) {
+				result.append(line);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if (reader != null) {
+				try {
+					reader.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return result.toString();
 	}
 }
