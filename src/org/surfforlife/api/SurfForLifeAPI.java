@@ -7,14 +7,15 @@ import java.util.ArrayList;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.surfforlife.objects.FundingStatus;
 import org.surfforlife.objects.Volunteer;
 
 public class SurfForLifeAPI {
-	
+
 	private static final String SURF_FOR_LIFE_API = "https://surfforlife.org/api/v1";
 	private static final String VOLUNTEERS_ENDPOINT = "/volunteers";
 	private static final String VOLUNTEER_STATUS_ENDPOINT = "/volunteer/VOLUNTEER_ID/funding_status";
-	
+
 	public static ArrayList<Volunteer> getVolunteers() {
 		ArrayList<Volunteer> volunteersList = new ArrayList<Volunteer>();
 		try {
@@ -29,7 +30,7 @@ public class SurfForLifeAPI {
 		}
 		return volunteersList;
 	}
-	
+
 	/**
 	 * Fetches a list of volunteers.
 	 * @return JSONObject 
@@ -43,10 +44,10 @@ public class SurfForLifeAPI {
 		  			...] 
 		 	}
 	 */
-	public static JSONObject getVolunteersJSON() {
+	private static JSONObject getVolunteersJSON() {
 		return getJSONForEndpoint(VOLUNTEERS_ENDPOINT);
 	}
-	
+
 	/**
 	 * Fetches the funding status for a specific volunteer.
 	 * @param volunteer - the unique id of the volunteer in question 
@@ -57,11 +58,12 @@ public class SurfForLifeAPI {
 		 		locale: "en_US"
 		 	}
 	 */
-	public static JSONObject getFundingStatusForVolunteer(final int volunteerId) {
+	public static FundingStatus getFundingStatusForVolunteer(final int volunteerId) {
 		final String endpoint = VOLUNTEER_STATUS_ENDPOINT.replace("VOLUNTEER_ID", String.valueOf(volunteerId));
-		return getJSONForEndpoint(endpoint);
+		JSONObject statusJSON = getJSONForEndpoint(endpoint);
+		return new FundingStatus(statusJSON);
 	}
-	
+
 	private static JSONObject getJSONForEndpoint(String endpoint) {
 		URL url = null;
 		try {
@@ -77,7 +79,7 @@ public class SurfForLifeAPI {
 		}
 		return resultsObj;
 	}
-	
+
 	private static String doGetRequest(URL url) {
 		// HACK!!!
 		if (url.toString().equals(SURF_FOR_LIFE_API + VOLUNTEERS_ENDPOINT)) {
