@@ -47,6 +47,7 @@ public class VolunteerSelectionActivity extends Activity {
 					@Override
 					public void run() {
 						final VolunteerAdapter adapter = new VolunteerAdapter(VolunteerSelectionActivity.this, R.layout.list_item_volunteer, volunteers);
+						adapter.setDropDownViewResource(R.layout.list_item_volunteer);
 						volunteersDropDown.setAdapter(adapter);
 						submitButton.setEnabled(volunteers.size() > 0);
 					}
@@ -86,12 +87,14 @@ public class VolunteerSelectionActivity extends Activity {
 
 	private class VolunteerAdapter extends ArrayAdapter<Volunteer> {
 		
-		List<Volunteer> volunteers;
+		private LayoutInflater inflater; 
+		private List<Volunteer> volunteers;
 		
 		public VolunteerAdapter(Context context, 
 				int textViewResourceId, List<Volunteer> objects) {
 			super(context, textViewResourceId, objects);
 			volunteers = objects;
+			inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		}
 		
 		@Override
@@ -99,16 +102,28 @@ public class VolunteerSelectionActivity extends Activity {
 			View view = convertView;
 			if (view == null) {
 				// inflate view
-				view = ((LayoutInflater)getContext()
-						.getSystemService(Context.LAYOUT_INFLATER_SERVICE))
-						.inflate(R.layout.list_item_volunteer, null);
+				view = inflater.inflate(R.layout.list_item_volunteer, null);
 			}
 			
-			TextView name = (TextView)view.findViewById(R.id.volunteer_name);
-			name.setText(volunteers.get(position).getName());
+			ViewHolder holder = (ViewHolder) view.getTag();
+			if (holder == null) {
+				holder = new ViewHolder();
+				holder.name = (TextView)view.findViewById(R.id.volunteer_name);
+			}
+			
+			holder.name.setText(volunteers.get(position).getName());
+			view.setTag(holder);
 			
 			return view;
 		}
-
+		
+		@Override
+		public View getDropDownView(final int position, final View convertView, final ViewGroup parent) {
+			return getView(position, convertView, parent);
+		}
+		
+		private class ViewHolder {
+			public TextView name;
+		}
 	}
 }
