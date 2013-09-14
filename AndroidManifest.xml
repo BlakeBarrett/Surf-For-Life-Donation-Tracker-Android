@@ -5,8 +5,8 @@
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="10"
-        android:targetSdkVersion="17" />
+        android:minSdkVersion="7"
+        android:targetSdkVersion="18" />
     <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
@@ -16,17 +16,20 @@
         android:theme="@style/AppTheme">
         <activity
             android:name="org.surfforlife.donationtracker.VolunteerSelectionActivity"
-            android:label="@string/app_name"
+            android:label="@string/select_volunteers"
             android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity 
             android:name="org.surfforlife.donationtracker.VolunteerDonationStatusActivity"
-            android:screenOrientation="portrait"></activity>
+            android:label="@string/fund_raising_status"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity android:name="ApplicationLaunchActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

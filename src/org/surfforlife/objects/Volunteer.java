@@ -14,7 +14,7 @@ public class Volunteer {
 	private String name;
 	private String url;
 
-	public Volunteer(JSONObject volunteer) {
+	public Volunteer(final JSONObject volunteer) {
 		try {
 			this.id = volunteer.getInt(VOLUNTEER_ID);
 			this.name = volunteer.getString(VOLUNTEER_NAME);
@@ -24,24 +24,30 @@ public class Volunteer {
 		}
 	}
 	
+	public Volunteer(final int id, final String name, final String url) {
+		this.id = id;
+		this.name = name;
+		this.url = url;
+	}
+	
 	public int getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(final int id) {
 		this.id = id;
 	}
 	
 	public String getName() {
 		return name;
 	}
-	public void setName(String name) {
+	public void setName(final String name) {
 		this.name = name;
 	}
 	
 	public String getUrl() {
 		return url;
 	}
-	public void setUrl(String url) {
+	public void setUrl(final String url) {
 		this.url = url;
 	}
 }
