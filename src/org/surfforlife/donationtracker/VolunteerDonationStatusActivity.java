@@ -107,6 +107,7 @@ public class VolunteerDonationStatusActivity extends Activity {
 						SocialAPI.tweet(socialMessage);
 					}
 				});
+
 		((Button) findViewById(R.id.volunteer_profile_button))
 		.setOnClickListener(new OnClickListener() {
 			@Override

@@ -1,4 +1,8 @@
 Surf-For-Life-Donation-Tracker-Android
 ======================================
 
-Surf For Life Donation Tracking Android App.
+An app that allows you to track the funding status for a selected volunteer.
+
+![](/docs/1-volunteer-selection.png)
+![](/docs/2-volunteer-selection-popup.png)
+![](/docs/3-volunteer-status.png)
