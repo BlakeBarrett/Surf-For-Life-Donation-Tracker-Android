@@ -2,11 +2,12 @@
 <resources>
 
     <string name="app_name">Surf For Life Donation Tracker</string>
+    <string name="action_bar_name">Donation Tracker</string>
     <string name="action_settings">Settings</string>
     <string name="select_volunteers">Select volunteer</string>
-    <string name="fund_raising_status">Fundraising status:</string>
+    <string name="fund_raising_status">Fundraising status</string>
     <string name="get">get</string>
     <string name="share">Share</string>
     <string name="tweet">Tweet</string>
-
+    <string name="volunteer_profile">Profile</string>
 </resources>

@@ -41,6 +41,12 @@
             android:layout_height="wrap_content"
             android:text="@string/tweet" />
 
+        <Button
+            android:id="@+id/volunteer_profile_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/volunteer_profile" />
+
     </LinearLayout>
 
 </RelativeLayout>

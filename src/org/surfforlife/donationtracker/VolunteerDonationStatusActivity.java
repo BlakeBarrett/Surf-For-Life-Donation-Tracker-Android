@@ -9,6 +9,10 @@ import org.surfforlife.objects.FundingStatus;
 import org.surfforlife.objects.Volunteer;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -28,6 +32,7 @@ public class VolunteerDonationStatusActivity extends Activity {
 		setContentView(R.layout.activity_volunteer_donation_status);
 
 		getVolunteerInfo();
+		saveVolunteerForNextTime();
 		setVolunteerTitle();
 		getStatusForVolunteer();
 		setSocialSharingButtonClickListeners();
@@ -39,6 +44,14 @@ public class VolunteerDonationStatusActivity extends Activity {
 				Volunteer.VOLUNTEER_NAME);
 		volunteerUrl = getIntent().getExtras().getString(
 				Volunteer.VOLUNTEER_URL);
+	}
+	
+	private void saveVolunteerForNextTime() {
+		SharedPreferences.Editor editor= this.getSharedPreferences(getString(R.string.app_name), Context.MODE_PRIVATE).edit();
+		editor.putInt(Volunteer.VOLUNTEER_ID, volunteerId);
+		editor.putString(Volunteer.VOLUNTEER_NAME, volunteerName);
+		editor.putString(Volunteer.VOLUNTEER_URL, volunteerUrl);
+		editor.commit();
 	}
 
 	private void setVolunteerTitle() {
@@ -94,5 +107,14 @@ public class VolunteerDonationStatusActivity extends Activity {
 						SocialAPI.tweet(socialMessage);
 					}
 				});
+		((Button) findViewById(R.id.volunteer_profile_button))
+		.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(Intent.ACTION_VIEW);
+				intent.setData(Uri.parse(volunteerUrl));
+				startActivity(intent);
+			}
+		});
 	}
 }
