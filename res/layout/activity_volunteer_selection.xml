@@ -3,28 +3,29 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
+    <Spinner
+        android:id="@+id/volunteers_drop_down_list"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true" />
+
     <TextView
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/volunteers_drop_down_list"
-        android:layout_centerHorizontal="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
         android:text="@string/select_volunteers"
         android:textAppearance="?android:attr/textAppearanceMedium" />
-
-    <Spinner
-        android:id="@+id/volunteers_drop_down_list"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true" />
 
     <Button
         android:id="@+id/get_volunteers_submit_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/volunteers_drop_down_list"
+        android:layout_alignTop="@+id/volunteers_drop_down_list"
         android:layout_centerHorizontal="true"
-        android:text="@string/get" />
+        android:layout_marginTop="45dp"
+        android:text="@string/see_progress" />
 
 </RelativeLayout>
