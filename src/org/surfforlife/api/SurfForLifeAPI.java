@@ -19,7 +19,7 @@ public class SurfForLifeAPI {
 
 	private static final String SURF_FOR_LIFE_API = "https://surfforlife.org/api/v1";
 	private static final String VOLUNTEERS_ENDPOINT = "/volunteers";
-	private static final String VOLUNTEER_STATUS_ENDPOINT = "/volunteer/VOLUNTEER_ID/funding_status";
+	private static final String VOLUNTEER_STATUS_ENDPOINT = "/volunteers/VOLUNTEER_ID/funding_status";
 
 	public static ArrayList<Volunteer> getVolunteers() {
 		ArrayList<Volunteer> volunteersList = new ArrayList<Volunteer>();
@@ -66,7 +66,7 @@ public class SurfForLifeAPI {
 	 */
 	public static FundingStatus getFundingStatusForVolunteer(final int volunteerId) {
 		final String endpoint = VOLUNTEER_STATUS_ENDPOINT.replace("VOLUNTEER_ID", String.valueOf(volunteerId));
-		JSONObject statusJSON = getJSONForEndpoint(endpoint);
+		final JSONObject statusJSON = getJSONForEndpoint(endpoint);
 		return new FundingStatus(statusJSON);
 	}
 
@@ -89,29 +89,19 @@ public class SurfForLifeAPI {
 	static String doGetRequest(URL url) {
 		String result = "";
 		try {
-			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+			final HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 			final String streamData = readStream(connection.getInputStream());
 			if (streamData != null) {
 				result = streamData;
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
-		} finally {
-			// HACK!!!
-			if (url.toString().equals(SURF_FOR_LIFE_API + VOLUNTEERS_ENDPOINT)) {
-				result = "{volunteers:[{" +
-						"id: 12345, name: 'Jonus Grumby', page_url: 'http://hippovszombies.com'},{" +
-						"id: 12346, name: 'Blake Barrett', page_url: 'http://fb.com/schjlatah'}" +
-						"]}";
-			} else {
-				result = "{funding_goal: 2000, funding_status: 1750, locale: 'en_US'}";
-			}
 		}
 		return result;
 	}
 	
-	private static String readStream(InputStream in) {
-		StringBuilder result = new StringBuilder();
+	private static String readStream(final InputStream in) {
+		final StringBuilder result = new StringBuilder();
 		BufferedReader reader = null;
 		try {
 			reader = new BufferedReader(new InputStreamReader(in));
