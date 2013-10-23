@@ -17,7 +17,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 
 public class VolunteerDonationStatusActivity extends Activity {
 
@@ -26,15 +29,17 @@ public class VolunteerDonationStatusActivity extends Activity {
 	private String volunteerUrl;
 	private String socialMessage;
 
+	private static CheckBox rememberVolunteer;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_volunteer_donation_status);
 
 		getVolunteerInfo();
-		saveVolunteerForNextTime();
 		setVolunteerTitle();
 		getStatusForVolunteer();
+		setupRememberMeCheckBox();
 		setSocialSharingButtonClickListeners();
 	}
 
@@ -45,9 +50,11 @@ public class VolunteerDonationStatusActivity extends Activity {
 		volunteerUrl = getIntent().getExtras().getString(
 				Volunteer.VOLUNTEER_URL);
 	}
-	
-	private void saveVolunteerForNextTime() {
-		SharedPreferences.Editor editor= this.getSharedPreferences(getString(R.string.app_name), Context.MODE_PRIVATE).edit();
+
+	private void saveVolunteerForNextTime(final Boolean remember) {
+		SharedPreferences.Editor editor = this.getSharedPreferences(
+				getString(R.string.app_name), Context.MODE_PRIVATE).edit();
+		editor.putBoolean(Volunteer.REMEMBER, remember);
 		editor.putInt(Volunteer.VOLUNTEER_ID, volunteerId);
 		editor.putString(Volunteer.VOLUNTEER_NAME, volunteerName);
 		editor.putString(Volunteer.VOLUNTEER_URL, volunteerUrl);
@@ -81,14 +88,32 @@ public class VolunteerDonationStatusActivity extends Activity {
 		final int goal = fundingStatus.getGoal();
 		final Locale locale = fundingStatus.getLocale();
 		final TextView statusText = (TextView) findViewById(R.id.fundraising_status_text);
-		final String fundingStatusString = getCurrencyFormattedString(status, locale)
-				+ " of " + getCurrencyFormattedString(goal, locale);
+		final String fundingStatusString = getCurrencyFormattedString(status,
+				locale) + " of " + getCurrencyFormattedString(goal, locale);
 		statusText.setText(fundingStatusString);
 	}
 
-	private String getCurrencyFormattedString(final int value, final Locale locale) {
+	private String getCurrencyFormattedString(final int value,
+			final Locale locale) {
 		final NumberFormat format = NumberFormat.getCurrencyInstance(locale);
 		return format.format(value);
+	}
+
+	private void setupRememberMeCheckBox() {
+		final Boolean checked = getSharedPreferences(
+				getString(R.string.app_name), Context.MODE_PRIVATE).getBoolean(
+				Volunteer.REMEMBER, false);
+		rememberVolunteer = (CheckBox) findViewById(R.id.remember_selected_volunteer_checkbox);
+		rememberVolunteer.setChecked(checked);
+		rememberVolunteer
+				.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+
+					@Override
+					public void onCheckedChanged(CompoundButton buttonView,
+							boolean isChecked) {
+						saveVolunteerForNextTime(isChecked);
+					}
+				});
 	}
 
 	private void setSocialSharingButtonClickListeners() {
@@ -109,13 +134,13 @@ public class VolunteerDonationStatusActivity extends Activity {
 				});
 
 		((Button) findViewById(R.id.volunteer_profile_button))
-		.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Intent intent = new Intent(Intent.ACTION_VIEW);
-				intent.setData(Uri.parse(volunteerUrl));
-				startActivity(intent);
-			}
-		});
+				.setOnClickListener(new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						Intent intent = new Intent(Intent.ACTION_VIEW);
+						intent.setData(Uri.parse(volunteerUrl));
+						startActivity(intent);
+					}
+				});
 	}
 }

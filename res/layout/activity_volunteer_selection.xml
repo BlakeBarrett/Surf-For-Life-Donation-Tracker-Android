@@ -11,7 +11,7 @@
         android:layout_centerHorizontal="true"
         android:text="@string/select_volunteers"
         android:textAppearance="?android:attr/textAppearanceMedium" />
-	
+
     <Spinner
         android:id="@+id/volunteers_drop_down_list"
         android:layout_width="wrap_content"

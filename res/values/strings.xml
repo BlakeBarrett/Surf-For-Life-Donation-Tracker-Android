@@ -7,7 +7,9 @@
     <string name="select_volunteers">Select volunteer</string>
     <string name="fund_raising_status">Fundraising status</string>
     <string name="get">get</string>
+    <string name="remember">remember</string>
     <string name="share">Share</string>
     <string name="tweet">Tweet</string>
     <string name="volunteer_profile">Profile</string>
+
 </resources>

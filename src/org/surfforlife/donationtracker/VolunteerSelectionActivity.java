@@ -21,11 +21,11 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 public class VolunteerSelectionActivity extends Activity {
-	
+
 	private static ArrayList<Volunteer> volunteers;
 	private static Spinner volunteersDropDown;
 	private static Button submitButton;
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -33,9 +33,9 @@ public class VolunteerSelectionActivity extends Activity {
 		initVolunteersUI();
 		addClickListenerForSelection();
 	}
-	
+
 	private void initVolunteersUI() {
-		volunteersDropDown = (Spinner)findViewById(R.id.volunteers_drop_down_list);
+		volunteersDropDown = (Spinner) findViewById(R.id.volunteers_drop_down_list);
 		submitButton = ((Button) findViewById(R.id.get_volunteers_submit_button));
 		submitButton.setEnabled(volunteers != null);
 		new Thread() {
@@ -46,7 +46,9 @@ public class VolunteerSelectionActivity extends Activity {
 				runOnUiThread(new Runnable() {
 					@Override
 					public void run() {
-						final VolunteerAdapter adapter = new VolunteerAdapter(VolunteerSelectionActivity.this, R.layout.list_item_volunteer, volunteers);
+						final VolunteerAdapter adapter = new VolunteerAdapter(
+								VolunteerSelectionActivity.this,
+								R.layout.list_item_volunteer, volunteers);
 						adapter.setDropDownViewResource(R.layout.list_item_volunteer);
 						volunteersDropDown.setAdapter(adapter);
 						submitButton.setEnabled(volunteers.size() > 0);
@@ -55,21 +57,23 @@ public class VolunteerSelectionActivity extends Activity {
 			}
 		}.start();
 	}
-	
+
 	private void addClickListenerForSelection() {
 		submitButton.setEnabled(volunteers != null);
 		submitButton.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				int index = volunteersDropDown.getSelectedItemPosition();
-				
+
 				if (index < 0) {
 					return;
 				}
-				
-				Volunteer volunteer = volunteers.get(index);
-				Intent intent = new Intent(VolunteerSelectionActivity.this, VolunteerDonationStatusActivity.class);
+
+				final Volunteer volunteer = volunteers.get(index);
+				final Intent intent = new Intent(
+						VolunteerSelectionActivity.this,
+						VolunteerDonationStatusActivity.class);
 				intent.putExtra(Volunteer.VOLUNTEER_ID, volunteer.getId());
 				intent.putExtra(Volunteer.VOLUNTEER_NAME, volunteer.getName());
 				intent.putExtra(Volunteer.VOLUNTEER_URL, volunteer.getUrl());
@@ -77,7 +81,7 @@ public class VolunteerSelectionActivity extends Activity {
 			}
 		});
 	}
-	
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -86,42 +90,45 @@ public class VolunteerSelectionActivity extends Activity {
 	}
 
 	private class VolunteerAdapter extends ArrayAdapter<Volunteer> {
-		
-		private LayoutInflater inflater; 
+
+		private LayoutInflater inflater;
 		private List<Volunteer> volunteers;
-		
-		public VolunteerAdapter(Context context, 
-				int textViewResourceId, List<Volunteer> objects) {
+
+		public VolunteerAdapter(Context context, int textViewResourceId,
+				List<Volunteer> objects) {
 			super(context, textViewResourceId, objects);
 			volunteers = objects;
-			inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			inflater = (LayoutInflater) context
+					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		}
-		
+
 		@Override
-		public View getView(final int position, final View convertView, final ViewGroup parent){
+		public View getView(final int position, final View convertView,
+				final ViewGroup parent) {
 			View view = convertView;
 			if (view == null) {
 				// inflate view
 				view = inflater.inflate(R.layout.list_item_volunteer, null);
 			}
-			
+
 			ViewHolder holder = (ViewHolder) view.getTag();
 			if (holder == null) {
 				holder = new ViewHolder();
-				holder.name = (TextView)view.findViewById(R.id.volunteer_name);
+				holder.name = (TextView) view.findViewById(R.id.volunteer_name);
 			}
-			
+
 			holder.name.setText(volunteers.get(position).getName());
 			view.setTag(holder);
-			
+
 			return view;
 		}
-		
+
 		@Override
-		public View getDropDownView(final int position, final View convertView, final ViewGroup parent) {
+		public View getDropDownView(final int position, final View convertView,
+				final ViewGroup parent) {
 			return getView(position, convertView, parent);
 		}
-		
+
 		private class ViewHolder {
 			public TextView name;
 		}

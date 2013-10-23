@@ -9,6 +9,7 @@ public class Volunteer {
 	public static final String VOLUNTEER_ID = "id";
 	public static final String VOLUNTEER_NAME = "name";
 	public static final String VOLUNTEER_URL = "page_url";
+	public static final String REMEMBER = "REMEMBER_ME";
 	
 	private int id;
 	private String name;

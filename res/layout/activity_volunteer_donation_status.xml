@@ -23,11 +23,12 @@
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <LinearLayout
+        android:id="@+id/linearLayout1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/fundraising_status_text">
+        android:layout_below="@+id/fundraising_status_text"
+        android:layout_centerHorizontal="true" >
 
         <Button
             android:id="@+id/share_button"
@@ -46,7 +47,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/volunteer_profile" />
-
     </LinearLayout>
+
+    <CheckBox
+        android:id="@+id/remember_selected_volunteer_checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/linearLayout1"
+        android:layout_alignParentRight="true"
+        android:layout_alignRight="@+id/linearLayout1"
+        android:text="@string/remember" />
 
 </RelativeLayout>
