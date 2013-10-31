@@ -19,7 +19,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -28,12 +28,12 @@ public class VolunteerSelectionActivity extends Activity {
 	private static SharedPreferences prefs;
 	private static ArrayList<Volunteer> volunteers;
 	private static ListView volunteersDropDown;
-	private static Button submitButton;
+	private static ImageView submitButton;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		this.setTitle(getString(R.string.select_volunteers));
+		this.setTitle(getString(R.string.surf_for_life));
 		checkRemembered();
 		setContentView(R.layout.activity_volunteer_selection);
 		initVolunteersUI();
@@ -64,7 +64,7 @@ public class VolunteerSelectionActivity extends Activity {
 	
 	private void initVolunteersUI() {
 		volunteersDropDown = (ListView) findViewById(R.id.volunteers_drop_down_list);
-		submitButton = ((Button) findViewById(R.id.get_volunteers_submit_button));
+		submitButton = ((ImageView) findViewById(R.id.get_volunteers_submit_button));
 		submitButton.setEnabled(volunteers != null);
 		new Thread() {
 			public void run() {
