@@ -9,33 +9,61 @@ import org.surfforlife.objects.Volunteer;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.Spinner;
+import android.widget.ListView;
 import android.widget.TextView;
 
 public class VolunteerSelectionActivity extends Activity {
 
+	private static SharedPreferences prefs;
 	private static ArrayList<Volunteer> volunteers;
-	private static Spinner volunteersDropDown;
+	private static ListView volunteersDropDown;
 	private static Button submitButton;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		this.setTitle(getString(R.string.select_volunteers));
+		checkRemembered();
 		setContentView(R.layout.activity_volunteer_selection);
 		initVolunteersUI();
 		addClickListenerForSelection();
 	}
+	
+	private void checkRemembered() {
+		Intent intent;
+		prefs = this.getSharedPreferences(getString(R.string.app_name),
+				Context.MODE_PRIVATE);
+		
+		final Boolean remembered = prefs.getBoolean(Volunteer.REMEMBER, false);
 
+		if (remembered) {
+			intent = new Intent(this, VolunteerDonationStatusActivity.class);
+			if (prefs.getInt(Volunteer.VOLUNTEER_ID, 0) != 0) {
+				final int id = prefs.getInt(Volunteer.VOLUNTEER_ID, 0);
+				final String name = prefs.getString(Volunteer.VOLUNTEER_NAME,
+						"");
+				final String url = prefs.getString(Volunteer.VOLUNTEER_URL, "");
+				intent.putExtra(Volunteer.VOLUNTEER_ID, id);
+				intent.putExtra(Volunteer.VOLUNTEER_NAME, name);
+				intent.putExtra(Volunteer.VOLUNTEER_URL, url);
+			}
+			this.startActivity(intent);
+		}
+	}
+	
 	private void initVolunteersUI() {
-		volunteersDropDown = (Spinner) findViewById(R.id.volunteers_drop_down_list);
+		volunteersDropDown = (ListView) findViewById(R.id.volunteers_drop_down_list);
 		submitButton = ((Button) findViewById(R.id.get_volunteers_submit_button));
 		submitButton.setEnabled(volunteers != null);
 		new Thread() {
@@ -50,7 +78,7 @@ public class VolunteerSelectionActivity extends Activity {
 								VolunteerSelectionActivity.this,
 								R.layout.list_item_volunteer, volunteers);
 						adapter.setDropDownViewResource(R.layout.list_item_volunteer);
-						volunteersDropDown.setAdapter(adapter);
+						((ListView) volunteersDropDown).setAdapter(adapter);
 						submitButton.setEnabled(volunteers.size() > 0);
 					}
 				});
@@ -58,13 +86,22 @@ public class VolunteerSelectionActivity extends Activity {
 		}.start();
 	}
 
+	private int selectedVolunteerIndex;
+	
 	private void addClickListenerForSelection() {
 		submitButton.setEnabled(volunteers != null);
+		volunteersDropDown.setOnItemClickListener(
+				new OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapter, View view, int pos, long id) {
+            	selectedVolunteerIndex = pos;
+			}
+		});
 		submitButton.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				int index = volunteersDropDown.getSelectedItemPosition();
+				int index = selectedVolunteerIndex;
 
 				if (index < 0) {
 					return;
