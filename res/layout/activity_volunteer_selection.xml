@@ -9,7 +9,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/get_volunteers_submit_button"
-        android:layout_below="@+id/textView1"
+        android:layout_below="@+id/volunteer_name_title"
         android:choiceMode="singleChoice"
         android:fastScrollEnabled="true"
         android:listSelector="#00aed9"
@@ -18,7 +18,7 @@
         android:stackFromBottom="false" />
 
     <TextView
-        android:id="@+id/textView1"
+        android:id="@+id/volunteer_name_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"

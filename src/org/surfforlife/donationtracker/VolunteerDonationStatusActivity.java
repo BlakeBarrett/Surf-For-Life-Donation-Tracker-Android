@@ -8,6 +8,7 @@ import org.surfforlife.api.SurfForLifeAPI;
 import org.surfforlife.objects.FundingStatus;
 import org.surfforlife.objects.Volunteer;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -19,8 +20,8 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.TextView;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.TextView;
 
 public class VolunteerDonationStatusActivity extends Activity {
 
@@ -62,9 +63,8 @@ public class VolunteerDonationStatusActivity extends Activity {
 	}
 
 	private void setVolunteerTitle() {
-		final TextView text = (TextView) findViewById(R.id.fundraising_status_title);
-		// TODO: i18n
-		text.setText("Fundraising status for " + volunteerName + ":");
+		final TextView text = (TextView) findViewById(R.id.volunteer_name_title);
+		text.setText(volunteerName);
 		socialMessage = "Donate to me bitches! " + volunteerUrl;
 	}
 
@@ -83,13 +83,14 @@ public class VolunteerDonationStatusActivity extends Activity {
 		}.start();
 	}
 
+	@SuppressLint("NewApi")
 	private void setStatusForVolunteer(final FundingStatus fundingStatus) {
 		final int status = fundingStatus.getStatus();
 		final int goal = fundingStatus.getGoal();
 		final Locale locale = fundingStatus.getLocale();
 		final TextView statusText = (TextView) findViewById(R.id.fundraising_status_text);
 		final String fundingStatusString = getCurrencyFormattedString(status,
-				locale) + " of " + getCurrencyFormattedString(goal, locale);
+				locale) + " \n of \n" + getCurrencyFormattedString(goal, locale);
 		statusText.setText(fundingStatusString);
 	}
 
