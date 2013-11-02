@@ -3,7 +3,6 @@ package org.surfforlife.donationtracker;
 import java.text.NumberFormat;
 import java.util.Locale;
 
-import org.surfforlife.api.SocialAPI;
 import org.surfforlife.api.SurfForLifeAPI;
 import org.surfforlife.objects.FundingStatus;
 import org.surfforlife.objects.Volunteer;
@@ -28,7 +27,6 @@ public class VolunteerDonationStatusActivity extends Activity {
 	private int volunteerId;
 	private String volunteerName;
 	private String volunteerUrl;
-	private String socialMessage;
 
 	private static CheckBox rememberVolunteer;
 
@@ -65,11 +63,11 @@ public class VolunteerDonationStatusActivity extends Activity {
 	private void setVolunteerTitle() {
 		final TextView text = (TextView) findViewById(R.id.volunteer_name_title);
 		text.setText(volunteerName);
-		socialMessage = "Donate to me bitches! " + volunteerUrl;
 	}
 
 	private void getStatusForVolunteer() {
 		new Thread() {
+			@Override
 			public void run() {
 				final FundingStatus fundingStatus = SurfForLifeAPI
 						.getFundingStatusForVolunteer(volunteerId);
@@ -90,7 +88,9 @@ public class VolunteerDonationStatusActivity extends Activity {
 		final Locale locale = fundingStatus.getLocale();
 		final TextView statusText = (TextView) findViewById(R.id.fundraising_status_text);
 		final String fundingStatusString = getCurrencyFormattedString(status,
-				locale) + " \n of \n" + getCurrencyFormattedString(goal, locale);
+				locale)
+				+ " \n of \n"
+				+ getCurrencyFormattedString(goal, locale);
 		statusText.setText(fundingStatusString);
 	}
 
@@ -118,22 +118,6 @@ public class VolunteerDonationStatusActivity extends Activity {
 	}
 
 	private void setSocialSharingButtonClickListeners() {
-		((Button) findViewById(R.id.share_button))
-				.setOnClickListener(new OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						SocialAPI.shareOnFacebook(socialMessage);
-					}
-				});
-
-		((Button) findViewById(R.id.tweet_button))
-				.setOnClickListener(new OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						SocialAPI.tweet(socialMessage);
-					}
-				});
-
 		((Button) findViewById(R.id.volunteer_profile_button))
 				.setOnClickListener(new OnClickListener() {
 					@Override

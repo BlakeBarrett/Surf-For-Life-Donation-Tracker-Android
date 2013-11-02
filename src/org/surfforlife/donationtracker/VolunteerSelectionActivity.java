@@ -39,12 +39,12 @@ public class VolunteerSelectionActivity extends Activity {
 		initVolunteersUI();
 		addClickListenerForSelection();
 	}
-	
+
 	private void checkRemembered() {
 		Intent intent;
 		prefs = this.getSharedPreferences(getString(R.string.app_name),
 				Context.MODE_PRIVATE);
-		
+
 		final Boolean remembered = prefs.getBoolean(Volunteer.REMEMBER, false);
 
 		if (remembered) {
@@ -61,12 +61,13 @@ public class VolunteerSelectionActivity extends Activity {
 			this.startActivity(intent);
 		}
 	}
-	
+
 	private void initVolunteersUI() {
 		volunteersDropDown = (ListView) findViewById(R.id.volunteers_drop_down_list);
 		submitButton = ((ImageView) findViewById(R.id.get_volunteers_submit_button));
 		submitButton.setEnabled(volunteers != null);
 		new Thread() {
+			@Override
 			public void run() {
 				// API request on new thread
 				volunteers = SurfForLifeAPI.getVolunteers();
@@ -78,7 +79,7 @@ public class VolunteerSelectionActivity extends Activity {
 								VolunteerSelectionActivity.this,
 								R.layout.list_item_volunteer, volunteers);
 						adapter.setDropDownViewResource(R.layout.list_item_volunteer);
-						((ListView) volunteersDropDown).setAdapter(adapter);
+						volunteersDropDown.setAdapter(adapter);
 						submitButton.setEnabled(volunteers.size() > 0);
 					}
 				});
@@ -87,14 +88,14 @@ public class VolunteerSelectionActivity extends Activity {
 	}
 
 	private int selectedVolunteerIndex;
-	
+
 	private void addClickListenerForSelection() {
 		submitButton.setEnabled(volunteers != null);
-		volunteersDropDown.setOnItemClickListener(
-				new OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapter, View view, int pos, long id) {
-            	selectedVolunteerIndex = pos;
+		volunteersDropDown.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> adapter, View view, int pos,
+					long id) {
+				selectedVolunteerIndex = pos;
 			}
 		});
 		submitButton.setOnClickListener(new OnClickListener() {
@@ -121,15 +122,13 @@ public class VolunteerSelectionActivity extends Activity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.volunteer_donation_status, menu);
-		return true;
+		return false;
 	}
 
 	private class VolunteerAdapter extends ArrayAdapter<Volunteer> {
 
-		private LayoutInflater inflater;
-		private List<Volunteer> volunteers;
+		private final LayoutInflater inflater;
+		private final List<Volunteer> volunteers;
 
 		public VolunteerAdapter(Context context, int textViewResourceId,
 				List<Volunteer> objects) {

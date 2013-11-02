@@ -8,22 +8,43 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".VolunteerDonationStatusActivity" >
 
-    <TextView
-        android:id="@+id/fundraising_status_title"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/fund_raising_status" />
+        android:layout_above="@+id/linearLayout1"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:orientation="vertical" >
 
-    <TextView
-        android:id="@+id/fundraising_status_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/remember_selected_volunteer_checkbox"
-        android:layout_alignLeft="@+id/fundraising_status_title"
-        android:layout_alignRight="@+id/remember_selected_volunteer_checkbox"
-        android:layout_below="@+id/volunteer_name_title"
-        android:textAlignment="center"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        <TextView
+            android:id="@+id/fundraising_status_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/fund_raising_status"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
+            android:id="@+id/volunteer_name_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <TextView
+            android:id="@+id/fundraising_status_text"
+            android:layout_width="match_parent"
+            android:layout_height="0dip"
+            android:layout_weight="0.09"
+            android:textAlignment="center"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <CheckBox
+            android:id="@+id/remember_selected_volunteer_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:text="@string/remember" />
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/linearLayout1"
@@ -32,6 +53,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" >
 
+        <!--
         <Button
             android:id="@+id/share_button"
             android:layout_width="wrap_content"
@@ -43,6 +65,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/tweet" />
+        -->
 
         <Button
             android:id="@+id/volunteer_profile_button"
@@ -50,23 +73,5 @@
             android:layout_height="wrap_content"
             android:text="@string/volunteer_profile" />
     </LinearLayout>
-
-    <CheckBox
-        android:id="@+id/remember_selected_volunteer_checkbox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/linearLayout1"
-        android:layout_alignParentRight="true"
-        android:layout_alignRight="@+id/linearLayout1"
-        android:text="@string/remember" />
-
-    <TextView
-        android:id="@+id/volunteer_name_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/fundraising_status_title"
-        android:layout_alignRight="@+id/fundraising_status_text"
-        android:layout_below="@+id/fundraising_status_title"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
 
 </RelativeLayout>
