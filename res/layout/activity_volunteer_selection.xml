@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
     android:background="#ececec"
@@ -12,7 +13,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:paddingTop="@dimen/activity_vertical_margin" >
+        android:paddingTop="@dimen/activity_vertical_margin"
+        tools:ignore="UselessParent" >
 
         <TextView
             android:id="@+id/volunteer_name_title"
@@ -32,9 +34,10 @@
             android:gravity="top"
             android:listSelector="#00aed9"
             android:orientation="vertical"
+            android:paddingTop="@dimen/activity_vertical_margin"
             android:smoothScrollbar="true"
-            android:stackFromBottom="false" >android:paddingTop="@dimen/activity_vertical_margin"
-</ListView>
+            android:stackFromBottom="false" >
+        </ListView>
 
         <ImageView
             android:id="@+id/get_volunteers_submit_button"
