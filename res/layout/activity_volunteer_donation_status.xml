@@ -44,7 +44,7 @@
             android:id="@+id/remember_selected_volunteer_checkbox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
+            android:gravity="center_horizontal|bottom|fill"
             android:text="@string/remember" />
     </LinearLayout>
 
